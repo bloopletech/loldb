@@ -1,24 +1,11 @@
 class Models::Model
-  attr_accessor :source
-
   class << self
     attr_reader :fields
 
     def set_fields(*fields)
-      @fields = [:riot_id] + fields
+      @fields = [:id] + fields
 
       attr_accessor *@fields
-    end
-  end
-
-  def self.finder(name:, relation:, key:)
-    define_method(name) do
-      return nil unless source
-
-      self_value = send(key)
-      result = source.send(relation).find(self_value)
-      raise "Could not find record in relation #{relation} with riot_id of #{self_value}" unless result
-      result
     end
   end
 

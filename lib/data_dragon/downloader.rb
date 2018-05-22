@@ -14,10 +14,7 @@ class DataDragon::Downloader
   end
 
   def delete_data
-    Build.data_path.each_child do |child|
-      next if child.basename.to_s == ".gitkeep"
-      child.rmtree
-    end
+    Build.data_unpacked_path.rmtree
   end
 
   def download_pack

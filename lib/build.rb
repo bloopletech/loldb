@@ -23,6 +23,14 @@ module Build
     data_path + "pack.tgz"
   end
 
+  def self.models_path
+    data_path + 'models'
+  end
+
+  def self.items_path
+    models_path + "items.json"
+  end
+
   def self.build_path
     root_path + 'build'
   end

@@ -1,16 +1,13 @@
 class Models::List
-  attr_accessor :source
   extend Forwardable
-  def_delegators :to_a, :each, :map, :select
+  def_delegators :to_a, :each, :map, :select, :first
 
-  def initialize(source)
-    @source = source
+  def initialize
     @index = {}
   end
 
   def <<(record)
-    record.source = @source
-    @index[record.riot_id] = record
+    @index[record.id] = record
     self
   end
 
@@ -19,11 +16,11 @@ class Models::List
   end
   alias :all :to_a
 
-  def find(riot_id)
-    @index[riot_id]
+  def find(id)
+    @index[id]
   end
 
-  def find_all(riot_ids)
-    @index.values_at(*riot_ids).compact
+  def find_all(ids)
+    @index.values_at(*ids).compact
   end
 end
