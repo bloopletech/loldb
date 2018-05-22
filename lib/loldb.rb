@@ -13,21 +13,18 @@ require 'bundler/setup'
 ENV['LOLDB_ENV'] ||= 'development'
 Bundler.require(:default, ENV['LOLDB_ENV'])
 
+require 'active_support/core_ext/hash/deep_merge'
+
 $:.unshift(File.dirname(__FILE__))
 
 Dotenv.load
-
-module DataDragon
-end
 
 module Models
 end
 
 require 'error_reporting'
 require 'build'
-require 'build/haml_context'
-require 'build/icons'
-require 'build/html'
+require 'data_dragon'
 require 'data_dragon/client'
 require 'data_dragon/downloader'
 require 'data_dragon/data'
@@ -37,3 +34,6 @@ require 'models/model'
 require 'models/item'
 require 'models/items'
 require 'seeder'
+require 'build/haml_context'
+require 'build/icons'
+require 'build/html'

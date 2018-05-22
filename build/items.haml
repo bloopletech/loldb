@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %meta{charset: 'utf-8'}
+    %title League of Legends Items
+
+    %meta{name: 'HandheldFriendly', content: 'true'}
+    %meta{name: 'viewport', content: 'width=device-width, height=device-height, user-scalable=no'}
+
+    :css
+      #{include('css/icons.css')}
+      #{include('css/settings.css')}
+      #{include('css/style.css')}
+  %body
+    #page-wrapper
+      - list.each do |item|
+        %p= item.name
+
+      #footer<
+        %p
+          League of Legends® and LCS® are registered trademarks of Riot Games, Inc.
+          This website is not associated with or sponsored by Riot Games, Inc.
+        %p
+          Page generated&nbsp;
+          %span.footer-time{data: { value: generated }}>
+          , data file generated&nbsp;
+          %span.footer-time{data: { value: data_generated }}>
+          \.

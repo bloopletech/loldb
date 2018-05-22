@@ -14,11 +14,11 @@ class DataDragon::Downloader
   end
 
   def delete_data
-    Build.data_unpacked_path.rmtree
+    DataDragon.data_unpacked_path.rmtree
   end
 
   def download_pack
-    Build.data_pack_path.open("w") do |file|
+    DataDragon.data_pack_path.open("w") do |file|
       @client.dragontail(online_version) do |chunk, remaining, total|
         file.write(chunk)
         puts "Downloading, remaining: #{remaining}, total: #{total}"
@@ -29,11 +29,11 @@ class DataDragon::Downloader
   # untars the given IO into the specified
   # directory
   def extract_pack
-    io = Zlib::GzipReader.new(Build.data_pack_path.open)
+    io = Zlib::GzipReader.new(DataDragon.data_pack_path.open)
 
     Gem::Package::TarReader.new(io) do |tar|
       tar.each do |tarfile|
-        destination_file = (Build.data_unpacked_path + tarfile.full_name)
+        destination_file = (DataDragon.data_unpacked_path + tarfile.full_name)
 
         if tarfile.directory?
           destination_file.mkpath
@@ -47,7 +47,7 @@ class DataDragon::Downloader
   end
 
   def remove_pack
-    Build.data_pack_path.delete
+    DataDragon.data_pack_path.delete
   end
 
   def online_version
@@ -55,12 +55,12 @@ class DataDragon::Downloader
   end
 
   def local_version
-    Build.version_path.read
+    DataDragon.version_path.read
   rescue
     nil
   end
 
   def save_version
-    Build.version_path.write(online_version)
+    DataDragon.version_path.write(online_version)
   end
 end

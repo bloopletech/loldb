@@ -11,18 +11,6 @@ module Build
     end
   end
 
-  def self.data_unpacked_path
-    data_path + 'unpacked'
-  end
-
-  def self.version_path
-    data_path + "version"
-  end
-
-  def self.data_pack_path
-    data_path + "pack.tgz"
-  end
-
   def self.models_path
     data_path + 'models'
   end

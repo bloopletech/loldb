@@ -1,42 +1,21 @@
 class Build::Html
-  SEASONS = {
-    2015 => '2015.html',
-    2016 => '2016.html',
-    2017 => '2017.html',
-    2018 => 'index.html'
+  PAGES = {
+    "items" => Models::Items
   }
 
   def build
     haml_context = Build::HamlContext.new(Build.build_path)
 
-    source = Models::Persistence.load(Build.source_path)
-
-    SEASONS.each_pair do |year, file|
-      (Build.output_path + file).write(haml_context.render('index.haml', context(source, year)))
+    PAGES.each_pair do |file, klass|
+      (Build.output_path + "#{file}.html").write(haml_context.render("#{file}.haml", context(klass)))
     end
   end
 
-  def context(source, year)
-    matches = matches_for_year(source, year)
-    leagues = leagues_for_matches(source, matches)
-    team_acronyms = matches.flat_map { |match| match.teams }.uniq.map { |team| team.acronym }
-
+  def context(klass)
     {
-      year: year,
-      leagues: leagues,
-      matches: matches,
-      team_acronyms: team_acronyms,
-      title: "#{year} League of Legends eSports Schedule",
+      list: klass.load,
       generated: Time.now.iso8601,
-      data_generated: Build.source_path.mtime.iso8601
+      data_generated: DataDragon.version_path.mtime.iso8601
     }
-  end
-
-  def matches_for_year(source, year)
-    source.matches.select { |match| match.rtime.year == year }
-  end
-
-  def leagues_for_matches(source, matches)
-    source.leagues.select { |league| matches.any? { |match| match.league == league } }
   end
 end
