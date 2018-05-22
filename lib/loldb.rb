@@ -5,11 +5,13 @@ require 'json'
 require 'pathname'
 require 'time'
 require 'open-uri'
+require 'zlib'
 
 require 'rubygems'
+require 'rubygems/package'
 require 'bundler/setup'
-ENV['LOLSCHEDULE_ENV'] ||= 'development'
-Bundler.require(:default, ENV['LOLSCHEDULE_ENV'])
+ENV['LOLDB_ENV'] ||= 'development'
+Bundler.require(:default, ENV['LOLDB_ENV'])
 
 $:.unshift(File.dirname(__FILE__))
 
@@ -21,7 +23,7 @@ end
 module Seeders
 end
 
-module Riot
+module DataDragon
 end
 
 require 'error_reporting'
@@ -29,13 +31,8 @@ require 'build'
 require 'build/haml_context'
 require 'build/icons'
 require 'build/html'
-require 'build/vod_url'
-require 'riot/api_client'
-require 'riot/data'
-require 'riot/league'
-require 'riot/streams'
-require 'riot/tournament'
-require 'riot/videos'
+require 'data_dragon/client'
+require 'data_dragon/downloader'
 require 'models/source'
 require 'models/persistence'
 require 'models/list'

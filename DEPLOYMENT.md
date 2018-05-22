@@ -41,29 +41,29 @@ cd ~
 ## Bare Git repo setup
 
 ````bash
-git clone --bare https://github.com/bloopletech/lolschedule.git /home/ubuntu/lolschedule.git
-cat <<EOF > /home/ubuntu/lolschedule.git/hooks/post-receive
+git clone --bare https://github.com/bloopletech/loldb.git /home/ubuntu/loldb.git
+cat <<EOF > /home/ubuntu/loldb.git/hooks/post-receive
 #!/bin/bash
-git --work-tree=/home/ubuntu/lolschedule --git-dir=/home/ubuntu/lolschedule.git checkout -f
-cd /home/ubuntu/lolschedule
+git --work-tree=/home/ubuntu/loldb --git-dir=/home/ubuntu/loldb.git checkout -f
+cd /home/ubuntu/loldb
 . /home/ubuntu/environment
 bundle install --without development test guard --deployment
 EOF
-chmod +x /home/ubuntu/lolschedule.git/hooks/post-receive
+chmod +x /home/ubuntu/loldb.git/hooks/post-receive
 ````
 
-## Create lolschedule directory
+## Create loldb directory
 
 ````bash
-mkdir /home/ubuntu/lolschedule
+mkdir /home/ubuntu/loldb
 ````
 
 ## Environment variables
 
 ````bash
 cat <<EOF > /home/ubuntu/environment
-export LOLSCHEDULE_ENV="production"
-export LOLSCHEDULE_OUTPUT_DIR="/var/www/html"
+export LOLDB_ENV="production"
+export LOLDB_OUTPUT_DIR="/var/www/html"
 export ROLLBAR_TOKEN="<rollbar token>"
 EOF
 ````
@@ -71,8 +71,8 @@ EOF
 ## Configure Git remote and first push
 
 ````bash
-# On your local machine, in lolschedule directory
-git remote add droplet ssh://ubuntu@<server IP address>/home/ubuntu/lolschedule.git
+# On your local machine, in loldb directory
+git remote add droplet ssh://ubuntu@<server IP address>/home/ubuntu/loldb.git
 git commit --allow-empty -m "Bump"
 git push droplet master
 ````
@@ -82,7 +82,7 @@ git push droplet master
 ````bash
 # As root
 cat <<EOF > /var/spool/cron/crontabs/ubuntu
-*/10 * * * * /home/ubuntu/lolschedule/lolschedule
+*/10 * * * * /home/ubuntu/loldb/loldb
 EOF
 
 chown ubuntu:ubuntu /var/spool/cron/crontabs/ubuntu
@@ -167,8 +167,8 @@ certbot certonly --webroot -w /var/www/html -d lol.bloople.net
 
 ````bash
 # As root
-cat <<EOF > /etc/logrotate.d/lolschedule
-/home/ubuntu/lolschedule.log {
+cat <<EOF > /etc/logrotate.d/loldb
+/home/ubuntu/loldb.log {
         daily
         missingok
         rotate 14

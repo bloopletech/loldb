@@ -1,4 +1,4 @@
-require_relative './lib/lolschedule.rb'
+require_relative './lib/loldb.rb'
 
 def yield_hash(object, &block)
   run_proc = proc do |*args|

@@ -4,15 +4,23 @@ module Build
   end
 
   def self.data_path
-    if ENV.key?('LOLSCHEDULE_DATA_DIR')
-      Pathname.new(ENV['LOLSCHEDULE_DATA_DIR'])
+    if ENV.key?('LOLDB_DATA_DIR')
+      Pathname.new(ENV['LOLDB_DATA_DIR'])
     else
       root_path + 'data'
     end
   end
 
-  def self.source_path
-    data_path + 'source.json'
+  def self.data_unpacked_path
+    data_path + 'unpacked'
+  end
+
+  def self.version_path
+    data_path + "version"
+  end
+
+  def self.data_pack_path
+    data_path + "pack.tgz"
   end
 
   def self.build_path
@@ -24,8 +32,8 @@ module Build
   end
 
   def self.output_path
-    if ENV.key?('LOLSCHEDULE_OUTPUT_DIR')
-      Pathname.new(ENV['LOLSCHEDULE_OUTPUT_DIR'])
+    if ENV.key?('LOLDB_OUTPUT_DIR')
+      Pathname.new(ENV['LOLDB_OUTPUT_DIR'])
     else
       root_path + 'output'
     end

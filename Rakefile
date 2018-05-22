@@ -1,30 +1,11 @@
-require_relative './lib/lolschedule.rb'
+require_relative './lib/loldb.rb'
 
-desc 'Download league, tournament, match, and team data'
+desc 'Download data'
 task :data do
-  source = Models::Source.new
-  Seeders::Seeder.new(source).seed
-  Models::Persistence.save(source, Build.source_path)
+  DataDragon::Downloader.new.download
 end
 
 namespace :build do
-  namespace :icons do
-    desc 'Download icons from Akamai'
-    task :download do
-      Build::Icons.new.download
-    end
-
-    desc 'Delete downloaded icons'
-    task :clean do
-      Build::Icons.new.clean
-    end
-
-    desc 'Generate sprite sheet of downloaded icons'
-    task :sprite do
-      Build::Icons.new.build_sprites
-    end
-  end
-
   desc 'Build HTML page containing schedule'
   task :html do
     Build::Html.new.build
@@ -56,7 +37,6 @@ desc 'Start an IRB console with the project and data loaded'
 task :console do
   require 'irb'
   ARGV.clear
-  $source = Models::Persistence.load(Build.source_path)
   IRB.start
 end
 
