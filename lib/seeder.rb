@@ -4,9 +4,10 @@ class Seeder
   
   def seed
     Build.models_path.mkpath
+    tail = DataDragon::Tail.new
 
     items = Models::Items.new
-    DataDragon::Items.new.each { |item| items << item }
+    DataDragon::Items.new(tail).each { |item| items << item }
     items.save
   end
 end

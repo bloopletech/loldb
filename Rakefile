@@ -2,7 +2,7 @@ require_relative './lib/loldb.rb'
 
 desc 'Download data'
 task :data do
-  #DataDragon::Downloader.new.download
+  DataDragon::Downloader.new.download
   Seeder.new.seed
 end
 

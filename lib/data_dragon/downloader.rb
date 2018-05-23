@@ -9,12 +9,12 @@ class DataDragon::Downloader
     delete_data
     download_pack
     extract_pack
-    remove_pack
+    remove_data
     save_version
   end
 
   def delete_data
-    DataDragon.data_unpacked_path.rmtree
+    DataDragon.data_unpacked_path.rmtree if DataDragon.data_unpacked_path.directory?
   end
 
   def download_pack
@@ -46,8 +46,9 @@ class DataDragon::Downloader
     end
   end
 
-  def remove_pack
-    DataDragon.data_pack_path.delete
+  def remove_data
+    DataDragon.data_pack_path.delete if DataDragon.data_pack_path.directory?
+    Build.models_path.rmtree if Build.models_path.directory?
   end
 
   def online_version

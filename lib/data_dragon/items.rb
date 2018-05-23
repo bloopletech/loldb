@@ -1,6 +1,7 @@
 class DataDragon::Items
-  def initialize
-    @data = JSON.parse(DataDragon.item_path.read)
+  def initialize(tail)
+    @tail = tail
+    @data = JSON.parse(@tail.item_path.read)
   end
   
   def each
@@ -21,7 +22,7 @@ class DataDragon::Items
       id: id,
       name: attrs["name"],
       description: attrs["description"],
-      image_path: DataDragon.item_image_path(id)
+      image_path: @tail.item_image_path(id)
     }
     
   end
